@@ -49,11 +49,28 @@ Here is why it effectively mirrors the 2023-2024 period:
 ### A. Post-Pandemic Travel Surge & Capacity
 2023-2024 represents a massive resurgence in tourism to Fiji. By setting baseline load factors high (especially from Australian and US markets), the dataset will accurately reflect the stress on operations (baggage handling, gate crowding) that occurs during peak recovery years. 
 
-### B. Fleet Modernization (The A350 Effect)
-During this period, Fiji Airways heavily utilized their new Airbus A350-900 XWBs. These aircraft feature modern interiors and superior In-Flight Entertainment. By explicitly coding a positive bias into the feedback for A350 routes, our data will organically show the "A350 effect" when we analyze On-Board Service, exactly as the real Marketing Team would observe.
+### B. Fleet Modernization & Seating Comfort (The A350 Effect)
+While Fleet Management is fundamentally separate from Customer Management, the type of aircraft has a direct and measurable correlation to Customer Satisfaction, specifically regarding aircraft seating and amenities. During 2023-2024, Fiji Airways heavily utilized their new Airbus A350-900 XWBs, which feature modern interiors, enhanced seating comfort, and superior In-Flight Entertainment (IFE). By explicitly coding a positive bias into the `seat_rating` and `IFE_rating` for A350 routes, our data will organically show this correlation when we analyze On-Board Service, exactly as the Marketing Team would observe in real surveys.
 
 ### C. Oneworld Alliance Integration
 In 2024, Fiji Airways announced its transition to a full Oneworld member. The 2023-2024 data needs to reflect growing Oneworld elite passenger traffic. By structuring the `loyalty_tier` to include Oneworld status and giving these passengers higher expectations (e.g., higher sensitivity to priority boarding failures), we can simulate the changing demographic of the airline's premium cabin.
 
 ### D. Skytrax Awards Validation
 Fiji Airways won "Best Airline in Australia and the Pacific" at the 2023 and 2024 Skytrax awards. Therefore, our baseline parameters for crew friendliness and overall CSAT must be skewed positively (e.g., a mean score of 4.2 out of 5) rather than a neutral 3.0. The data science challenge will be finding the *exceptions* (the specific routes or delay events) that dip below this high baseline.
+
+---
+
+## 3. Data Scoping Strategy: Real vs. Synthetic Boundaries
+
+To ensure the project remains highly credible and grounded for the Marketing Team, we must strictly define the boundaries of our hybrid data approach. **Real data must be used wherever it is publicly verifiable and applicable.**
+
+### Where REAL Data is Mandatory (To Ground the Project)
+1. **Unstructured Passenger Feedback**: Synthetic text generators (like LLMs) fail to capture genuine human nuance, emotional variance, and regional slang. Therefore, the entire text corpus for our NLP pipeline *must* be real data scraped from SkyTrax, Reddit, and forums.
+2. **The Route Network & Timetables**: We will not invent fake routes. The baseline for the `flights` table will be grounded using real Fiji Airways public schedules (e.g., mapping actual flight numbers like FJ910 to Sydney).
+3. **Fleet Composition**: The aircraft assignments in our data will perfectly mirror Fiji Airways' real public fleet (Airbus A350s, A330s, Boeing 737 MAX, and ATR-72s).
+4. **Macro-Events (Weather/Disruptions)**: We will anchor our generated flight delays to real-world historical events. For example, if a real cyclone affected Nadi in early 2023, our generated data will algorithmically spike with flight delays and ground service complaints on those exact dates.
+
+### Where SYNTHETIC Data is Necessary
+1. **Passenger Identity (PII) & CRM Profiles**: Due to strict data privacy laws (like GDPR), real customer names, emails, and Tabua Club point balances are completely inaccessible. These *must* be safely synthesized using libraries like `Faker`.
+2. **Internal CSAT/NPS Integers**: While we have real text reviews, internal 0-5 post-flight surveys are proprietary. We will synthesize these integer scores, but we will mathematically anchor them to the sentiment scores derived from the real external text.
+3. **Micro-Operational Metrics**: The exact minutes of delay for every single flight, or internal gate allocations at Suva, are private. We will synthesize these using statistical probability distributions (e.g., Poisson distributions) tied to global aviation industry averages.
